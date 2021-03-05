@@ -13,7 +13,6 @@ Requires Python 2.7 or later. Python 3 is strongly recommended.
 import os
 import sys
 import json
-import ast
 
 if sys.platform == 'win32':
     print("pipe-test.py, running on windows")
@@ -77,17 +76,22 @@ def do_command(command):
 # quick_test()
 
 
-test = do_command("GetInfo: Type=Tracks")
-san_test = test.replace("BatchCommand finished: OK", '')
-print(san_test)
 
 
 
-t_dic = json.loads(san_test)
-my_lst = t_dic.pop(1)
-print(my_lst["end"])
+# Removes sub-string from output - converts to Python Dict
+track_info = json.loads(do_command("GetInfo: Type=Tracks").replace("BatchCommand finished: OK", ''))
 
+track1 = track_info.pop(0)
+track2 = track_info.pop(0)
 
+"""test"""
+print(track1["end"], track2["end"])
+
+"""
+Scratchpad
+
+"""
 
 # do_command("Import2: Filename=C:/Users/tompe/Desktop/Raw_Audio.mp3")
 
