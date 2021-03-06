@@ -85,8 +85,6 @@ track_info = json.loads(do_command("GetInfo: Type=Tracks").replace("BatchCommand
 track1 = track_info.pop(0)
 track2 = track_info.pop(0)
 
-"""test"""
-print(track1["end"], track2["end"])
 
 """
 Scratchpad
