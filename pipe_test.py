@@ -19,11 +19,11 @@ if sys.platform == 'win32':
     TONAME = '\\\\.\\pipe\\ToSrvPipe'
     FROMNAME = '\\\\.\\pipe\\FromSrvPipe'
     EOL = '\r\n\0'
-else:
-    print("pipe-test.py, running on linux or mac")
-    TONAME = '/tmp/audacity_script_pipe.to.' + str(os.getuid())
-    FROMNAME = '/tmp/audacity_script_pipe.from.' + str(os.getuid())
-    EOL = '\n'
+# else:
+#     print("pipe-test.py, running on linux or mac")
+#     TONAME = '/tmp/audacity_script_pipe.to.' + str(os.getuid())
+#     FROMNAME = '/tmp/audacity_script_pipe.from.' + str(os.getuid())
+#     EOL = '\n'
 
 print("Write to  \"" + TONAME +"\"")
 if not os.path.exists(TONAME):
