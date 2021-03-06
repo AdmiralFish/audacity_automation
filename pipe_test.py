@@ -86,6 +86,17 @@ track1 = track_info.pop(0)
 track2 = track_info.pop(0)
 
 
+track1_end = float(track1['end'])
+track2_end = float(track2['end'])
+
+timeshift = ((track2_end - track1_end) / track1_end) * 100
+
+
+print(timeshift)
+
+do_command(f'ChangeSpeed: Percentage={-(timeshift)}') # Still not 100% accurate?
+
+
 """
 Scratchpad
 
