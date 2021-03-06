@@ -13,3 +13,5 @@ Final script will automate the process of creating short audio clips.
 - [ ] Add standard amount of silence to both ends
 - [ ] Export as MP3 / WAV
 - [ ] OPTIONAL - Save audacity project 
+
+![Audacity Logo](https://www.audacityteam.org/wp-content/themes/wp_audacity/img/logo.png)
