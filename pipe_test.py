@@ -12,18 +12,17 @@ Requires Python 2.7 or later. Python 3 is strongly recommended.
 
 import os
 import sys
-import json
 
 if sys.platform == 'win32':
     print("pipe-test.py, running on windows")
     TONAME = '\\\\.\\pipe\\ToSrvPipe'
     FROMNAME = '\\\\.\\pipe\\FromSrvPipe'
     EOL = '\r\n\0'
-# else:
-#     print("pipe-test.py, running on linux or mac")
-#     TONAME = '/tmp/audacity_script_pipe.to.' + str(os.getuid())
-#     FROMNAME = '/tmp/audacity_script_pipe.from.' + str(os.getuid())
-#     EOL = '\n'
+else:
+    print("pipe-test.py, running on linux or mac")
+    TONAME = '/tmp/audacity_script_pipe.to.' + str(os.getuid())
+    FROMNAME = '/tmp/audacity_script_pipe.from.' + str(os.getuid())
+    EOL = '\n'
 
 print("Write to  \"" + TONAME +"\"")
 if not os.path.exists(TONAME):
@@ -67,49 +66,10 @@ def do_command(command):
     print("Rcvd: <<< \n" + response)
     return response
 
-# def quick_test():
-#     """Example list of commands."""
-#     do_command('Help: Command=Help')
-#     do_command('Help: Command="GetInfo"')
-#     #do_command('SetPreference: Name=GUI/Theme Value=classic Reload=1')
+def quick_test():
+    """Example list of commands."""
+    do_command('Help: Command=Help')
+    do_command('Help: Command="GetInfo"')
+    do_command('SetPreference: Name=GUI/Theme Value=classic Reload=1')
 
 # quick_test()
-
-
-
-
-
-# Removes sub-string from output - converts to Python Dict
-track_info = json.loads(do_command("GetInfo: Type=Tracks").replace("BatchCommand finished: OK", ''))
-
-track1 = track_info.pop(0)
-track2 = track_info.pop(0)
-
-# Base logic to normalize track length 
-## Need to change into function still!
-track1_end = float(track1['end'])
-track2_end = float(track2['end'])
-
-timeshift = 100 - ((track1_end / track2_end) * 100)
-
-do_command(f'ChangeSpeed: Percentage={-(timeshift)}') # Still not 100% accurate?
-
-
-"""
-Scratchpad
-
-"""
-
-# do_command("Import2: Filename=C:/Users/tompe/Desktop/Raw_Audio.mp3")
-
-# san_string = do_command("GetInfo: Type=Tracks").translate({ord(i): None for i in '[]'})
-# print(san_string)
-
-# san_lst = san_string.split('{')
-# print(san_lst)
-
-# track_info = ast.literal_eval(do_command("GetInfo: Type=Tracks").pop())
-
-
-# track_info = [ast.literal_eval(data) for data in do_command("GetInfo: Type=Tracks")]
-# print(track_info, type(track_info))
