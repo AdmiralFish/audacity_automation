@@ -2,11 +2,24 @@ import os
 import glob
 
 def file_source(directory):
-    return [file.replace("\\", "/") for file in glob.glob(f"{directory}/*.mp3")]
+    # Returns a list of all WAV files in a given directory. 
+    return [file.replace("\\", "/") for file in glob.glob(f"{directory}/*.wav")]
 
-set_a = file_source("C:/Users/tompe/Desktop/Import_Test")
-set_b = file_source("C:/Users/tompe/Desktop/Import_Test2")
+# Creates a list of all WAV files for set_a and set_b. 
+cwd = os.getcwd()
+set_a = file_source(cwd + r"\set_a")
+set_b = file_source(cwd + r"\set_b")
 
+# Labels for naming combined track. 
 set_a_names = ['A_001', 'A_002', 'A_003', 'A_004', 'A_005', 'A_006', 'A_007', 'A_008', 'A_009', 'A_010', 'A_011', 'A_012', 'A_013', 'A_014', 'A_015', 'A_016', 'A_017', 'A_018', 'A_019', 'A_020', 'A_021', 'A_022', 'A_023', 'A_024', 'A_025', 'A_026', 'A_027', 'A_028', 'A_029', 'A_030', 'A_031', 'A_032', 'A_033', 'A_034', 'A_035', 'A_036', 'A_037', 'A_038', 'A_039', 'A_040', 'A_041', 'A_042', 'A_043', 'A_044', 'A_045', 'A_046', 'A_047', 'A_048', 'A_049', 'A_050', 'A_051', 'A_052', 'A_053', 'A_054', 'A_055', 'A_056', 'A_057', 'A_058', 'A_059', 'A_060', 'A_061', 'A_062', 'A_063', 'A_064', 'A_065', 'A_066', 'A_067', 'A_068', 'A_069', 'A_070', 'A_071', 'A_072', 'A_073', 'A_074', 'A_075', 'A_076', 'A_077', 'A_078', 'A_079', 'A_080', 'A_081', 'A_082', 'A_083', 'A_084', 'A_085', 'A_086', 'A_087', 'A_088', 'A_089', 'A_090', 'A_091', 'A_092', 'A_093', 'A_094', 'A_095', 'A_096', 'A_097', 'A_098', 'A_099', 'A_100']
 set_b_names = ['B_001', 'B_002', 'B_003', 'B_004', 'B_005', 'B_006', 'B_007', 'B_008', 'B_009', 'B_010', 'B_011', 'B_012', 'B_013', 'B_014', 'B_015', 'B_016', 'B_017', 'B_018', 'B_019', 'B_020', 'B_021', 'B_022', 'B_023', 'B_024', 'B_025', 'B_026', 'B_027', 'B_028', 'B_029', 'B_030', 'B_031', 'B_032', 'B_033', 'B_034', 'B_035', 'B_036', 'B_037', 'B_038', 'B_039', 'B_040', 'B_041', 'B_042', 'B_043', 'B_044', 'B_045', 'B_046', 'B_047', 'B_048', 'B_049', 'B_050', 'B_051', 'B_052', 'B_053', 'B_054', 'B_055', 'B_056', 'B_057', 'B_058', 'B_059', 'B_060', 'B_061', 'B_062', 'B_063', 'B_064', 'B_065', 'B_066', 'B_067', 'B_068', 'B_069', 'B_070', 'B_071', 'B_072', 'B_073', 'B_074', 'B_075', 'B_076', 'B_077', 'B_078', 'B_079', 'B_080', 'B_081', 'B_082', 'B_083', 'B_084', 'B_085', 'B_086', 'B_087', 'B_088', 'B_089', 'B_090', 'B_091', 'B_092', 'B_093', 'B_094', 'B_095', 'B_096', 'B_097', 'B_098', 'B_099', 'B_100']
+
+
+# Check to see if export directoires are empty. 
+exp_files = file_source(cwd + r"exported_files")
+exp_proj = file_source(cwd + r"exported_projects")
+if exp_files or exp_files == []:
+    export_dir_empty = True
+
+
 

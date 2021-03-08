@@ -350,4 +350,11 @@ MigrationBackup/
 .ionide/
 
 # Media Files
-*Raw Audio.mp3
+*/set_a
+*/set_b
+*/exported_files
+*/exported_projects
+
+
+
+!.gitkeep

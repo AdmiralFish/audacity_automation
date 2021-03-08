@@ -1,5 +1,5 @@
 import pipe_test as pipe
-from data import set_a, set_a_names, set_b, set_b_names
+from data import cwd, set_a, set_a_names, set_b, set_b_names, export_dir_empty
 import json
 
 class Track:
@@ -14,7 +14,7 @@ class Track:
         pipe.do_command(f'SetTrackStatus: Name={self.name}')
     
 def import_track(file):
-    pipe.do_command(f"Import2: Filename={file}")
+    pipe.do_command(f'Import2: Filename="{file}"')
 
 def trunc_silence():
     pipe.do_command('SelectAll:')
@@ -43,8 +43,6 @@ def equal_length():
     pipe.do_command(f'SelectTracks: Mode="Set" Track="{short_track.id}" TrackCount="1"')
     pipe.do_command(f'ChangeSpeed: Percentage={-(timeshift)}') 
 
-    print("\n\n Track lengths equalized!")
-
     short_track.length = long_track.length
 
 def add_silence():
@@ -61,10 +59,10 @@ def add_silence():
         pipe.do_command('Silence:')
 
 def export_files():
-    pipe.do_command(f'SaveProject2: Filename=C:/Users/tompe/Desktop/Project_Files/{track1.name + "_&_" + track2.name + "_project"}.aup')
+    pipe.do_command(f'SaveProject2: Filename="{cwd}\exported_projects\{track1.name}_&_{track2.name}_project.aup"')
     pipe.do_command('SelectAll:')
-    pipe.do_command(f'Export2: Filename=C:/Users/tompe/Desktop/Export_Files/{track1.name + "_&_" + track2.name}.mp3')
-    print(f"File {track1.name + '_&_' + track2.name} exported successfully.")
+    pipe.do_command(f'Export2: Filename="{cwd}\exported_files\{track1.name}_&_{track2.name}.wav"')
+    print(f"File {track1.name}_&_{track2.name} exported successfully.")
 
 def cleanup():
     pipe.do_command('SelectAll:')
@@ -80,7 +78,7 @@ def main():
     
     # Get track data and import into Python objects. 
     t1_dic, t2_dic = get_track_data()
-    global track1, track2 # FOR TESTING ONLY
+    global track1, track2
     track1 = Track(t1_dic, '0')
     track2 = Track(t2_dic, '1')
 
@@ -90,16 +88,20 @@ def main():
     # Add 1 sec of silence to either side.
     add_silence()
     
-    # Export files as WAV and Audacity project.
+    # Export files as WAV tracks and Audacity projects.
     export_files()
 
     # Removes old tracks from project ready for next parse.
     cleanup()
 
-for file_number in range(len(set_a)):
-    main()
+if export_dir_empty == False:
+    print("Either 'exported_files' or 'exported_projects' is not empty - please remove files to avoid overwriting!")
+    
+elif set_a == [] or set_b == []:
+    print("Either set_a or set_b directories are empty - please add tracks to be combined!")
+    
+else:
+    for file_number in range(len(set_a)):
+        main()
+    print("\n\n All files succesfully merged!")
 
-""" TEST BENCH """
-
-# file_number = 0
-# main()
