@@ -74,4 +74,8 @@ def quick_test():
 
 # quick_test()
 
-
+test1= "A1"
+test2= "A2"
+# do_command(f'SaveProject2: Filename=C:/Users/tompe/Desktop/Project_Test/Raw_Audio.aup')
+do_command('SelectAll:')
+do_command(f'Export2: Filename=C:/Users/tompe/Desktop/Export_Test/{test1 + "_&_" + test2}.mp3')

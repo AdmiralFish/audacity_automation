@@ -11,8 +11,10 @@ Final script will automate the process of creating short audio clips.
 - [x] Pull track info into Python  
 - [X] Trim whitespace from either side (silence)
 - [x] Normalize duration for both tracks 
-- [ ] Add standard amount of silence to both ends
-- [ ] Export as MP3 / WAV
-- [ ] OPTIONAL - Save audacity project 
+- [x] Add standard amount of silence to both ends
+- [X] Export as MP3 / WAV
+- [X] OPTIONAL - Save audacity project 
+- [ ] Reset workspace
 
 ![Audacity Logo](https://www.audacityteam.org/wp-content/themes/wp_audacity/img/logo.png)
+
