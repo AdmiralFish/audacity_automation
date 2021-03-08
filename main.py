@@ -46,12 +46,15 @@ def main():
     # for track in track_list:
     #     import_track(track)
     
+    trunc_silence()
+    
     t1_dic, t2_dic = get_track_data()
 
     global track1, track2 # FOR TESTING ONLY
     track1 = Track(t1_dic, '0')
     track2 = Track(t2_dic, '1')
 
+    
     equal_length(track1, track2)
  
 # TEST BENCH #
