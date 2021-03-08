@@ -9,7 +9,7 @@ Final script will automate the process of creating short audio clips.
 - [X] Import track1 and track2
 - [ ] Automate importing from directory
 - [x] Pull track info into Python  
-- [ ] Trim whitespace from either side (silence)
+- [X] Trim whitespace from either side (silence)
 - [x] Normalize duration for both tracks 
 - [ ] Add standard amount of silence to both ends
 - [ ] Export as MP3 / WAV

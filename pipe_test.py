@@ -75,5 +75,3 @@ def quick_test():
 # quick_test()
 
 
-# do_command('SelectAll:')
-do_command('TruncateSilence: Minimum=0.1 Truncate=0.0 Independent=True')

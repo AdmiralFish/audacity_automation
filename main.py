@@ -23,7 +23,7 @@ def get_track_data():
         print("ERROR: No tracks loaded into audacity.")
     return t1_info, t2_info
 
-def equal_length(track1, track2):
+def equal_length():
     if track1.length < track2.length:
         long_track = track2
         short_track = track1
@@ -41,21 +41,37 @@ def equal_length(track1, track2):
 
     short_track.length = long_track.length
 
+def add_silence():
+    for track in [track1, track2]:
+        # Adds silence at start and end by copy/repeat/silence a slice of audio.
+        pipe.do_command(f'Select: Start="0" End="1" Track={track.id} Mode="Set" RelativeTo="ProjectStart"')
+        pipe.do_command('Repeat:Count="1"')
+        pipe.do_command('SelectTime: Start="0" End="1" RelativeTo="SelectionStart"')
+        pipe.do_command('Silence:')
+
+        pipe.do_command(f'Select: Start="0" End="1" Track={track.id} Mode="Set" RelativeTo="ProjectEnd"')
+        pipe.do_command('Repeat:Count="1"')
+        pipe.do_command('SelectTime: Start="0" End="1" RelativeTo="ProjectEnd"')
+        pipe.do_command('Silence:')
 
 def main():
     # for track in track_list:
     #     import_track(track)
     
+    # Trim silence from either side of both tracks.
     trunc_silence()
     
+    # Get track data and import into Python objects. 
     t1_dic, t2_dic = get_track_data()
-
     global track1, track2 # FOR TESTING ONLY
     track1 = Track(t1_dic, '0')
     track2 = Track(t2_dic, '1')
 
-    
-    equal_length(track1, track2)
+    # Equalize length of both tracks by slowing the faster track. 
+    equal_length()
+
+    # Add 1 sec of silence to either side.
+    add_silence()
  
 # TEST BENCH #
 
@@ -64,6 +80,5 @@ test_file2 = 'C:/Users/tompe/Desktop/Raw_Audio2.mp3'
 
 track_list = [test_file1, test_file2]
 
-trunc_silence()
 
-
+main()
