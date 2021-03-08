@@ -59,9 +59,9 @@ def add_silence():
         pipe.do_command('Silence:')
 
 def export_files():
-    pipe.do_command(f'SaveProject2: Filename="{cwd}\exported_projects\{track1.name}_&_{track2.name}_project.aup"')
+    pipe.do_command(f'SaveProject2: Filename="{cwd}\\exported_projects\\{track1.name}_&_{track2.name}_project.aup"')
     pipe.do_command('SelectAll:')
-    pipe.do_command(f'Export2: Filename="{cwd}\exported_files\{track1.name}_&_{track2.name}.wav"')
+    pipe.do_command(f'Export2: Filename="{cwd}\\exported_files\\{track1.name}_&_{track2.name}.wav"')
     print(f"File {track1.name}_&_{track2.name} exported successfully.")
 
 def cleanup():

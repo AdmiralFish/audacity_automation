@@ -350,11 +350,10 @@ MigrationBackup/
 .ionide/
 
 # Media Files
-*/set_a
-*/set_b
-*/exported_files
-*/exported_projects
+*set_a/*.wav
+*set_b/*wav
 
 
-
-!.gitkeep
+*exported_files/*.wav
+*exported_projects
+commands.txt
