@@ -1,17 +1,17 @@
 import pipe_test as pipe
+from data import set_a, set_a_names, set_b, set_b_names
 import json
 
 class Track:
     def __init__(self, track_info_dict, id):
         self.length = float(track_info_dict['end'])
         self.id = id    
-        # if self.id == 0:
-        #     self.name = set_a_names[index]
-        # else:
-        #     self.name = set_b_names[index]
-        # pipe.do_command(f'SelectTracks: Mode=Set Track={self.id} TrackCount=1')
-        # pipe.do_command(f'SetTrackStatus: Name={self.name}')
-
+        if self.id == '0':
+            self.name = set_a_names[file_number]
+        else:
+            self.name = set_b_names[file_number]
+        pipe.do_command(f'SelectTracks: Mode=Set Track={self.id} TrackCount=1')
+        pipe.do_command(f'SetTrackStatus: Name={self.name}')
     
 def import_track(file):
     pipe.do_command(f"Import2: Filename={file}")
@@ -60,10 +60,21 @@ def add_silence():
         pipe.do_command('SelectTime: Start="0" End="1" RelativeTo="ProjectEnd"')
         pipe.do_command('Silence:')
 
+def export_files():
+    pipe.do_command(f'SaveProject2: Filename=C:/Users/tompe/Desktop/Project_Files/{track1.name + "_&_" + track2.name + "_project"}.aup')
+    pipe.do_command('SelectAll:')
+    pipe.do_command(f'Export2: Filename=C:/Users/tompe/Desktop/Export_Files/{track1.name + "_&_" + track2.name}.mp3')
+    print(f"File {track1.name + '_&_' + track2.name} exported successfully.")
+
+def cleanup():
+    pipe.do_command('SelectAll:')
+    pipe.do_command('RemoveTracks')
+
 def main():
-    # for track in track_list:
-    #     import_track(track)
-    
+    # Imports tracks from both directories.
+    import_track(set_a[file_number])
+    import_track(set_b[file_number])
+
     # Trim silence from either side of both tracks.
     trunc_silence()
     
@@ -78,13 +89,17 @@ def main():
 
     # Add 1 sec of silence to either side.
     add_silence()
- 
-# TEST BENCH #
+    
+    # Export files as WAV and Audacity project.
+    export_files()
 
-test_file1 = 'C:/Users/tompe/Desktop/Raw_Audio.mp3'
-test_file2 = 'C:/Users/tompe/Desktop/Raw_Audio2.mp3'
+    # Removes old tracks from project ready for next parse.
+    cleanup()
 
-track_list = [test_file1, test_file2]
+for file_number in range(len(set_a)):
+    main()
 
+""" TEST BENCH """
 
-main()
+# file_number = 0
+# main()
