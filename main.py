@@ -5,13 +5,14 @@ class Track:
     def __init__(self, track_info_dict, id):
         self.name = track_info_dict['name']
         self.length = float(track_info_dict['end'])
-        self.id = id
-        self.longest = False
-    
+        self.id = id    
     
 def import_track(file):
     pipe.do_command(f"Import2: Filename={file}")
 
+def trunc_silence():
+    pipe.do_command('SelectAll:')
+    pipe.do_command('TruncateSilence: Minimum=0.2 Truncate=0.0 Independent=True')
 
 def get_track_data():
     track_info = json.loads(pipe.do_command("GetInfo: Type=Tracks").replace("BatchCommand finished: OK", ''))
@@ -21,12 +22,6 @@ def get_track_data():
     except IndexError():
         print("ERROR: No tracks loaded into audacity.")
     return t1_info, t2_info
-
-def longest_track(track1, track2):
-    if track1.length > track2.length:
-        track1.longest = True
-    else:
-        track2.longest = True
 
 def equal_length(track1, track2):
     if track1.length < track2.length:
@@ -45,10 +40,6 @@ def equal_length(track1, track2):
     print("\n\n Track lengths equalized!")
 
     short_track.length = long_track.length
-
-
-  
-
 
 
 def main():
@@ -70,5 +61,6 @@ test_file2 = 'C:/Users/tompe/Desktop/Raw_Audio2.mp3'
 
 track_list = [test_file1, test_file2]
 
-main()
+trunc_silence()
+
 
