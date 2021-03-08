@@ -3,9 +3,15 @@ import json
 
 class Track:
     def __init__(self, track_info_dict, id):
-        self.name = track_info_dict['name']
         self.length = float(track_info_dict['end'])
         self.id = id    
+        if self.id == 0:
+            self.name = set_a_names[index]
+        else:
+            self.name = set_b_names[index]
+        pipe.do_command(f'SelectTracks: Mode=Set Track={self.id} TrackCount=1')
+        pipe.do_command(f'SetTrackStatus: Name={self.name}')
+
     
 def import_track(file):
     pipe.do_command(f"Import2: Filename={file}")
