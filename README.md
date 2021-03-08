@@ -6,7 +6,8 @@ Final script will automate the process of creating short audio clips.
 ### Task list 
 
 - [x] Initatie pipeline to Audacity 
-- [ ] Import track1 and track2 
+- [X] Import track1 and track2
+- [ ] Automate importing from directory
 - [x] Pull track info into Python  
 - [ ] Trim whitespace from either side (silence)
 - [x] Normalize duration for both tracks 
