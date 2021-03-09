@@ -1,6 +1,6 @@
 import pipe_test as pipe
 from data import cwd, set_a, set_a_names, set_b, set_b_names, export_dir_empty
-import json
+import json, csv
 
 class Track:
     def __init__(self, track_info_dict, id):
@@ -12,6 +12,7 @@ class Track:
             self.name = set_b_names[file_number]
         pipe.do_command(f'SelectTracks: Mode=Set Track={self.id} TrackCount=1')
         pipe.do_command(f'SetTrackStatus: Name={self.name}')
+        self.data = [self.name, self.id, self.length]
     
 def import_track(file):
     pipe.do_command(f'Import2: Filename="{file}"')
@@ -82,6 +83,12 @@ def main():
     track1 = Track(t1_dic, '0')
     track2 = Track(t2_dic, '1')
 
+    # Write data to CSV file.
+    with open('OutputInfo.csv', 'a', newline='') as file:
+        writer = csv.writer(file)
+        for track in [track1, track2]:
+            writer.writerow(track.data)
+
     # Equalize length of both tracks by slowing the faster track. 
     equal_length()
 
@@ -94,6 +101,12 @@ def main():
     # Removes old tracks from project ready for next parse.
     cleanup()
 
+# Creates CSV file with output data.
+with open('OutputInfo.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(["Name", "Set", "Duration"])
+
+# Run script with error handling.
 if export_dir_empty == False:
     print("Either 'exported_files' or 'exported_projects' is not empty - please remove files to avoid overwriting!")
     

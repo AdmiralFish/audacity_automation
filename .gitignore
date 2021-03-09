@@ -352,8 +352,9 @@ MigrationBackup/
 # Media Files
 *set_a/*.wav
 *set_b/*wav
-
-
 *exported_files/*.wav
 *exported_projects/*.aup
+
 commands.txt
+OutputInfo.csv
+
