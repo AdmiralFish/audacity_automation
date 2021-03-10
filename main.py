@@ -108,11 +108,14 @@ with open('OutputInfo.csv', 'w', newline='') as file:
 
 # Run script with error handling.
 if export_dir_empty == False:
-    print("Either 'exported_files' or 'exported_projects' is not empty - please remove files to avoid overwriting!")
+    print("ERROR: Either 'exported_files' or 'exported_projects' is not empty - please remove files to avoid overwriting!")
     
 elif set_a == [] or set_b == []:
-    print("Either set_a or set_b directories are empty - please add tracks to be combined!")
-    
+    print("ERROR: Either set_a or set_b directories are empty - please add tracks to be combined!")
+
+elif len(set_a) != len(set_a):
+    print("ERRPR: Uneven amount of files in set_a & set_b!")
+
 else:
     for file_number in range(len(set_a)):
         main()
