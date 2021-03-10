@@ -30,34 +30,29 @@ def get_track_data():
         print("ERROR: No tracks loaded into audacity.")
     return t1_info, t2_info
 
-def equal_length():
-    if track1.length < track2.length:
-        long_track = track2
-        short_track = track1
-    else:
-        long_track = track1
-        short_track = track2
-
-    timeshift = 100 - ((short_track.length / long_track.length) * 100)
-    
-    pipe.do_command('SelectAll:')
-    pipe.do_command(f'SelectTracks: Mode="Set" Track="{short_track.id}" TrackCount="1"')
-    pipe.do_command(f'ChangeSpeed: Percentage={-(timeshift)}') 
-
-    short_track.length = long_track.length
-
-def add_silence():
-    for track in [track1, track2]:
+def add_silence(seconds, tracks_list):
+    for track in tracks_list:
         # Adds silence at start and end by copy/repeat/silence a slice of audio.
-        pipe.do_command(f'Select: Start="0" End="1" Track={track.id} Mode="Set" RelativeTo="ProjectStart"')
+        pipe.do_command(f'Select: Start="0" End="{seconds}" Track={track.id} Mode="Set" RelativeTo="ProjectStart"')
         pipe.do_command('Repeat:Count="1"')
-        pipe.do_command('SelectTime: Start="0" End="1" RelativeTo="SelectionStart"')
+        pipe.do_command(f'SelectTime: Start="0" End="{seconds}" RelativeTo="SelectionStart"')
         pipe.do_command('Silence:')
 
-        pipe.do_command(f'Select: Start="0" End="1" Track={track.id} Mode="Set" RelativeTo="ProjectEnd"')
+        pipe.do_command(f'Select: Start="0" End="{seconds}" Track={track.id} Mode="Set" RelativeTo="ProjectEnd"')
         pipe.do_command('Repeat:Count="1"')
-        pipe.do_command('SelectTime: Start="0" End="1" RelativeTo="ProjectEnd"')
+        pipe.do_command(f'SelectTime: Start="0" End="{seconds}" RelativeTo="ProjectEnd"')
         pipe.do_command('Silence:')
+
+def allign_tracks():
+    if track1.length < track2.length:
+        l_track = track2
+        s_track = track1
+    else:
+        l_track = track1
+        s_track = track2
+
+    shift = (l_track.length - s_track.length) / 2
+    add_silence(shift, [s_track])
 
 def export_files():
     pipe.do_command(f'SaveProject2: Filename="{cwd}\\exported_projects\\{track1.name}_&_{track2.name}_project.aup"')
@@ -89,11 +84,11 @@ def main():
         for track in [track1, track2]:
             writer.writerow(track.data)
 
-    # Equalize length of both tracks by slowing the faster track. 
-    equal_length()
+    # Align tracks to their midpoint.
+    allign_tracks()
 
-    # Add 1 sec of silence to either side.
-    add_silence()
+    # Add 1 sec of silence to either side of both tracks.
+    add_silence(1, [track1, track2])
     
     # Export files as WAV tracks and Audacity projects.
     export_files()
