@@ -5,6 +5,8 @@ Final script will automate the process of creating short audio clips.
 
 ### Instructions
 
+**Ensure you re-open audicty if re-running the script. Failing to do so will cause exporting projects to fail!**
+
 Before running the script ensure audacity is open and has 'mod-script-pipe' enabled.
 - Edit --> Preferences --> Modules --> mod-script-pipe 'Enabled'.
 
