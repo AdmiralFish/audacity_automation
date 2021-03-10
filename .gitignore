@@ -355,6 +355,7 @@ MigrationBackup/
 *exported_files/*.wav
 *exported_projects/*.aup
 *exported_projects/*
+
 commands.txt
 OutputInfo.csv
 
