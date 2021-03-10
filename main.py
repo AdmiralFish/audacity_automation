@@ -1,5 +1,5 @@
 import pipe_test as pipe
-from data import cwd, set_a, set_a_names, set_b, set_b_names, export_dir_empty
+from data import cwd, set_a, set_a_names, set_b, set_b_names, export_dir_empty, white_noise_path
 import json, csv
 
 class Track:
@@ -21,14 +21,13 @@ def trunc_silence():
     pipe.do_command('SelectAll:')
     pipe.do_command('TruncateSilence: Minimum=0.2 Truncate=0.0 Independent=True')
 
-def get_track_data():
+def get_track_data(track_number):
     track_info = json.loads(pipe.do_command("GetInfo: Type=Tracks").replace("BatchCommand finished: OK", ''))
     try:
-        t1_info = track_info.pop(0)
-        t2_info = track_info.pop(0)
+        t_info = track_info.pop(track_number)
     except IndexError():
-        print("ERROR: No tracks loaded into audacity.")
-    return t1_info, t2_info
+        print("ERROR: That track does not exist.")
+    return t_info
 
 def add_silence(seconds, tracks_list):
     for track in tracks_list:
@@ -54,6 +53,20 @@ def allign_tracks():
     shift = (l_track.length - s_track.length) / 2
     add_silence(shift, [s_track])
 
+def add_white_noise():
+    # Needs cleaing up
+    if track1.length < track2.length:
+        l_track = track2
+    else:
+        l_track = track1
+
+    import_track(white_noise_path)
+    white_noise = Track(get_track_data(2), '2')  
+    trim = white_noise.length - (l_track.length +2 )
+    pipe.do_command(f'Select: Start="0" End="{trim}" Track={white_noise.id} Mode="Set" RelativeTo="ProjectEnd"')
+    pipe.do_command('Delete:')
+
+
 def export_files():
     pipe.do_command(f'SaveProject2: Filename="{cwd}\\exported_projects\\{track1.name}_&_{track2.name}_project.aup"')
     pipe.do_command('SelectAll:')
@@ -73,7 +86,7 @@ def main():
     trunc_silence()
     
     # Get track data and import into Python objects. 
-    t1_dic, t2_dic = get_track_data()
+    t1_dic, t2_dic = get_track_data(0), get_track_data(1)
     global track1, track2
     track1 = Track(t1_dic, '0')
     track2 = Track(t2_dic, '1')
@@ -90,6 +103,9 @@ def main():
     # Add 1 sec of silence to either side of both tracks.
     add_silence(1, [track1, track2])
     
+    # Add white noise.
+    add_white_noise()
+
     # Export files as WAV tracks and Audacity projects.
     export_files()
 
