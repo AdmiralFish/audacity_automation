@@ -21,7 +21,7 @@ After the script has finished running the merged files and associated audacity p
 - [X] Import track1 and track2
 - [X] Automate importing from directory
 - [x] Pull track info into Python 
-- [ ] Output track length to external file 
+- [X] Output track length to external file 
 - [X] Trim whitespace from either side (silence)
 - [x] Normalize duration for both tracks 
 - [x] Add standard amount of silence to both ends
