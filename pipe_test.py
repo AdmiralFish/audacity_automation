@@ -73,3 +73,5 @@ def quick_test():
     do_command('SetPreference: Name=GUI/Theme Value=classic Reload=1')
 
 # quick_test()
+
+print(len([]))

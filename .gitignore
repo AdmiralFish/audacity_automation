@@ -350,12 +350,19 @@ MigrationBackup/
 .ionide/
 
 # Media Files
-*set_a/*.wav
-*set_b/*wav
-*exported_files/*.wav
-*exported_projects/*.aup
-*exported_projects/*
+input/*
+!.gitkeep
 
+output/*
+!output/merged_audio
+!output/project_data
+
+output/merged_audio/*
+!output/merged_audio/.gitkeep
+
+output/project_data/*
+!output/project_data/.gitkeep
+
+# Misc.
 commands.txt
-OutputInfo.csv
-
+test.py
