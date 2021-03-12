@@ -74,4 +74,3 @@ def quick_test():
 
 # quick_test()
 
-print(len([]))
