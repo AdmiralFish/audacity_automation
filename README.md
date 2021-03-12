@@ -7,10 +7,10 @@ Final script will automate the process of creating short audio clips.
 1. Before running the script ensure audacity is open and has 'mod-script-pipe' enabled.
 - Edit --> Preferences --> Modules --> mod-script-pipe 'Enabled'.
 
-2. Ensure the relevant files to be merged are placed in the correct order within each input folder respectively. 
+2. Ensure the relevant files to be merged are placed in the correct order within each '/input' folder respectively. 
 - **N.B.** Currently only supports .wav files
 
-3. Edit main() on line(x) to include the arguments you want (see below) and run.
+3. Edit main() on line(125) to include the arguments you want (see below), and run.
 
 4. After the script has finished running the merged files and associated audacity projects will be visible in the relevant output folders.
 
