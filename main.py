@@ -1,4 +1,5 @@
-import json, data
+import json
+import path_builder as pb
 import pipe_test as pipe
 
 class Project:
@@ -42,16 +43,16 @@ class Project:
 
     def add_whitenoise(self):
         self.update_end()
-        wn = self.import_track(data.input_files["white noise"], name="White Noise")
+        wn = self.import_track(pb.input_files["white noise"], name="White Noise")
         trim = self.tracks[wn].length - self.end
         pipe.do_command(f'Select: Start="0" End="{trim}" Track={wn} Mode="Set" RelativeTo="ProjectEnd"')
         pipe.do_command('Delete:')
 
     def export(self, exp_prj=False):
         if exp_prj:
-            pipe.do_command(f'SaveProject2: Filename="{data.output_dir}\\project_data\\{self.name}_project.aup"')
+            pipe.do_command(f'SaveProject2: Filename="{pb.output_dir}\\project_files\\{self.name}_project.aup"')
         pipe.do_command('SelectAll:')
-        pipe.do_command(f'Export2: Filename="{data.output_dir}\\merged_audio\\{self.name}.wav"')
+        pipe.do_command(f'Export2: Filename="{pb.output_dir}\\merged_audio\\{self.name}.wav"')
 
     def cleanup(self):
         pipe.do_command('SelectAll:')
@@ -65,7 +66,7 @@ class Track:
             self.name = name
         else:
             self.name = f"{set_name}{str(file_number+1).zfill(3)}"
-        self.data = [self.name, self.index, self.length]
+        self.info = [self.name, self.index, self.length]
 
         self.select()
         pipe.do_command(f'SetTrackStatus: Name={self.name}')
@@ -91,17 +92,17 @@ def main(*args):
     project = Project()
     # Imports track[x] from each input directory.
     global set_name
-    for set_name in data.input_sets:
+    for set_name in pb.input_sets:
         if 'strip' in args:
-            project.import_track(data.get_file_path(set_name, file_number), strip=True)
+            project.import_track(pb.get_file_path(set_name, file_number), strip=True)
         else:
-            project.import_track(data.get_file_path(set_name, file_number))
+            project.import_track(pb.get_file_path(set_name, file_number))
 
     for name in [track.name for track in project]:
         project.name += (name+'_')
 
     for track in project:
-        data.csv_writer('a', track.data)
+        pb.csv_writer('a', track.info)
 
     if 'align' in args:
         project.allign_tracks()
@@ -121,7 +122,7 @@ def main(*args):
     project.cleanup()
     
 if __name__ == '__main__':
-    for file_number in range(data.total_files):
+    for file_number in range(pb.total_files):
         main('strip', 'align', 'buffer', 'white', 'exp_prj')
 
     

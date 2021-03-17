@@ -355,13 +355,13 @@ input/*
 
 output/*
 !output/merged_audio
-!output/project_data
+!output/project_files
 
 output/merged_audio/*
 !output/merged_audio/.gitkeep
 
-output/project_data/*
-!output/project_data/.gitkeep
+output/project_files/*
+!output/project_files/.gitkeep
 
 # Misc.
 commands.txt

@@ -17,7 +17,7 @@ def csv_writer(mode, data): # Mode = 'w' (write), 'a' (append)
 
 # Check to see if export directoires are empty. 
 exp_files = file_list(cwd + r"\output\merged_audio")
-exp_proj = file_list(cwd + r"\output\project_data")
+exp_proj = file_list(cwd + r"\output\project_files")
 if exp_files != [] or exp_proj != []:
     raise Exception("One or both output folders not empty.")
 
