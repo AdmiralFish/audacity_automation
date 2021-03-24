@@ -83,6 +83,10 @@ class Track:
     def strip_silence(self):
         self.select()
         pipe.do_command('TruncateSilence: Minimum=0.2 Truncate=0.0 Independent=True')
+    
+    def mute(self):
+        self.select()
+        pipe.do_command(f'MuteTracks:')
 
 # Arguments = 'strip', 'align', 'buffer', 'white', 'exp_prj'
 def main(*args):
@@ -95,9 +99,9 @@ def main(*args):
             else:
                 project.import_track(pb.get_file_path(set_name, file_number), set_name=set_name, file_number=file_number)
 
-        project.name = ''
-        for track in project.tracks:
-            project.name += (track.name+'_')
+        project.name = f'audio_control_human{file_number}'
+        # for track in project.tracks:
+        #     project.name += (track.name+'_')
 
         for track in project.tracks:
             pb.csv_writer('a', track.info)
@@ -112,6 +116,11 @@ def main(*args):
         if 'white' in args:
             project.add_whitenoise()
         
+        if file_number % 2 != 0:
+            project.tracks[1].mute()
+        else:
+            project.tracks[0].mute()
+
         if 'exp_prj' in args:
             project.export(exp_prj=True)
         else:
